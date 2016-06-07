@@ -5,20 +5,10 @@ import java.util.HashMap;
 import org.bukkit.entity.Player;
 
 import me.armar.plugins.autorank.Autorank;
-import me.armar.plugins.autorank.hooks.acidislandapi.AcidIslandHandler;
-import me.armar.plugins.autorank.hooks.afkterminatorapi.AFKTerminatorHandler;
-import me.armar.plugins.autorank.hooks.askyblockapi.ASkyBlockHandler;
 import me.armar.plugins.autorank.hooks.essentialsapi.EssentialsHandler;
-import me.armar.plugins.autorank.hooks.factionsapi.FactionsHandler;
-import me.armar.plugins.autorank.hooks.mcmmoapi.McMMOHandler;
-import me.armar.plugins.autorank.hooks.ontimeapi.OnTimeHandler;
-import me.armar.plugins.autorank.hooks.royalcommandsapi.RoyalCommandsHandler;
-import me.armar.plugins.autorank.hooks.statisticsapi.StatisticsAPIHandler;
 import me.armar.plugins.autorank.hooks.statsapi.StatsAPIHandler;
-import me.armar.plugins.autorank.hooks.statsapi.customstats.CustomStatsManager;
-import me.armar.plugins.autorank.hooks.ultimatecoreapi.UltimateCoreHandler;
 import me.armar.plugins.autorank.hooks.vaultapi.VaultHandler;
-import me.armar.plugins.autorank.hooks.worldguardapi.WorldGuardHandler;
+import me.armar.plugins.autorank.hooks.statsapi.customstats.CustomStatsManager;
 import me.armar.plugins.autorank.statsmanager.StatsPlugin;
 import me.armar.plugins.autorank.statsmanager.StatsPluginManager;
 
@@ -62,19 +52,9 @@ public class DependencyManager {
 		plugin = instance;
 
 		// Register handlers
-		handlers.put(dependency.FACTIONS, new FactionsHandler(instance));
-		handlers.put(dependency.WORLDGUARD, new WorldGuardHandler(instance));
-		handlers.put(dependency.MCMMO, new McMMOHandler(instance));
 		handlers.put(dependency.ESSENTIALS, new EssentialsHandler(instance));
 		handlers.put(dependency.VAULT, new VaultHandler(instance));
-		handlers.put(dependency.ROYALCOMMANDS, new RoyalCommandsHandler(instance));
-		handlers.put(dependency.ONTIME, new OnTimeHandler(instance));
 		handlers.put(dependency.STATS, new StatsAPIHandler(instance));
-		handlers.put(dependency.ULTIMATECORE, new UltimateCoreHandler(instance));
-		handlers.put(dependency.STATISTICS, new StatisticsAPIHandler(instance));
-		handlers.put(dependency.AFKTERMINATOR, new AFKTerminatorHandler(instance));
-		handlers.put(dependency.ACIDISLAND, new AcidIslandHandler(instance));
-		handlers.put(dependency.ASKYBLOCK, new ASkyBlockHandler(instance));
 
 		statsPluginManager = new StatsPluginManager(instance);
 	}
@@ -115,15 +95,6 @@ public class DependencyManager {
 		if (handlers.get(dependency.ESSENTIALS).isAvailable()) {
 			plugin.debugMessage("Using Essentials for AFK");
 			return ((EssentialsHandler) handlers.get(dependency.ESSENTIALS)).isAFK(player);
-		} else if (handlers.get(dependency.ROYALCOMMANDS).isAvailable()) {
-			plugin.debugMessage("Using RoyalCommands for AFK");
-			return ((RoyalCommandsHandler) handlers.get(dependency.ROYALCOMMANDS)).isAFK(player);
-		} else if (handlers.get(dependency.ULTIMATECORE).isAvailable()) {
-			plugin.debugMessage("Using UltimateCore for AFK");
-			return ((UltimateCoreHandler) handlers.get(dependency.ULTIMATECORE)).isAFK(player);
-		} else if (handlers.get(dependency.AFKTERMINATOR).isAvailable()) {
-			plugin.debugMessage("Using AFKTerminator for AFK");
-			return ((AFKTerminatorHandler) handlers.get(dependency.AFKTERMINATOR)).isAFK(player);
 		}
 		// No suitable plugin found
 		return false;

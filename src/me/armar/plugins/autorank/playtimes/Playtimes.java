@@ -13,7 +13,6 @@ import java.util.UUID;
 import me.armar.plugins.autorank.Autorank;
 import me.armar.plugins.autorank.data.SimpleYamlConfiguration;
 import me.armar.plugins.autorank.hooks.DependencyManager.dependency;
-import me.armar.plugins.autorank.hooks.ontimeapi.OnTimeHandler;
 import me.armar.plugins.autorank.hooks.statsapi.StatsAPIHandler;
 import me.armar.plugins.autorank.language.Lang;
 import me.armar.plugins.autorank.statsmanager.StatsPlugin;
@@ -309,11 +308,6 @@ public class Playtimes {
 				// Stats not found, using Autorank's system.
 				playTime = this.getLocalTime(uuid) * 60;
 			}
-		} else if (timePlugin.equals(dependency.ONTIME)) {
-			playTime = ((OnTimeHandler) plugin.getDependencyManager().getDependency(dependency.ONTIME))
-					.getPlayTime(playerName);
-			// Time is in minutes, so convert to seconds
-			playTime = playTime * 60;
 		} else {
 
 			if (uuid == null)
