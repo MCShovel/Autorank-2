@@ -72,6 +72,10 @@ public class MySQLWrapper {
 		return database;
 	}
 
+	public SQLDataStorage getConnection() {
+		return mysql;
+	}
+
 	/**
 	 * Gets the database time of player <br>
 	 * Run this ASYNC, because it will block the thread it's on.

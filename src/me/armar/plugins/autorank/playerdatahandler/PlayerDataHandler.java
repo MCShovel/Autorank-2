@@ -35,21 +35,11 @@ public class PlayerDataHandler {
 
 	private FileConfiguration config;
 	private File configFile;
-	private boolean convertingData = false;
 
 	private final Autorank plugin;
 
 	public PlayerDataHandler(final Autorank instance) {
 		this.plugin = instance;
-
-		// Start requirement saver task
-		// Run save task every 2 minutes
-		plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
-			@Override
-			public void run() {
-				saveConfig();
-			}
-		}, 1200, 2400);
 	}
 
 	public void addCompletedRanks(final UUID uuid, final String rank) {
@@ -71,50 +61,6 @@ public class PlayerDataHandler {
 		setPlayerProgress(uuid, progress);
 	}
 
-	public void convertNamesToUUIDs() {
-
-		if (convertingData)
-			return;
-
-		convertingData = true;
-
-		plugin.getLogger().info("Starting to convert playerdata.yml");
-
-		// Run async to prevent problems.
-		plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-
-			@Override
-			public void run() {
-				// Backup beforehand
-				plugin.getBackupManager().backupFile("/playerdata/playerdata.yml", null);
-
-				for (final String name : getConfig().getKeys(false)) {
-
-					// Probably UUID because names don't have dashes.
-					if (name.contains("-"))
-						continue;
-
-					final UUID uuid = plugin.getUUIDStorage().getStoredUUID(name);
-
-					if (uuid == null)
-						continue;
-
-					final List<Integer> progress = config.getIntegerList(name + ".progress");
-					final String lastKnownGroup = config.getString(name + ".last group");
-
-					// Remove name
-					config.set(name, null);
-
-					// Replace name with UUID
-					config.set(uuid.toString() + ".progress", progress);
-					config.set(uuid.toString() + ".last group", lastKnownGroup);
-				}
-
-				plugin.getLogger().info("Converted playerdata.yml to UUID format");
-			}
-		});
-	}
-
 	public void createNewFile() {
 		reloadConfig();
 		saveConfig();
@@ -127,6 +73,9 @@ public class PlayerDataHandler {
 	}
 
 	private List<String> getCompletedRanks(final UUID uuid) {
+		if (uuid == null || config == null) {
+			return new ArrayList<String>();
+		}
 		final List<String> completed = config.getStringList(uuid.toString() + ".completed ranks");
 
 		return completed;
@@ -150,6 +99,9 @@ public class PlayerDataHandler {
 	public List<Integer> getProgress(final UUID uuid) {
 		//UUID uuid = UUIDManager.getUUIDFromPlayer(playerName);
 		//Validate.notNull(uuid, "UUID of a player is null!");
+		if (uuid == null) {
+			return new ArrayList<Integer>();
+		}
 
 		return (List<Integer>) config.getList(uuid.toString() + ".progress", new ArrayList<Integer>());
 	}
@@ -161,7 +113,10 @@ public class PlayerDataHandler {
 			return false;
 		}
 
-		return getCompletedRanks(uuid).contains(rank);
+		List<String> completed = getCompletedRanks(uuid);
+		if (completed != null)
+			return completed.contains(rank);
+		return false;
 	}
 
 	public boolean hasCompletedRequirement(final int reqID, final UUID uuid) {
@@ -171,26 +126,12 @@ public class PlayerDataHandler {
 	}
 
 	public void loadConfig() {
-
-		config.options().header("This file contains all the data Autorank needs of players");
-
-		config.options().copyDefaults(true);
-		saveConfig();
+		reloadConfig();
 	}
 
 	@SuppressWarnings("deprecation")
 	public void reloadConfig() {
-		if (configFile == null) {
-			configFile = new File(plugin.getDataFolder() + "/playerdata", "playerdata.yml");
-		}
-		config = YamlConfiguration.loadConfiguration(configFile);
-
-		// Look for defaults in the jar
-		final InputStream defConfigStream = plugin.getResource("playerdata.yml");
-		if (defConfigStream != null) {
-			final YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-			config.setDefaults(defConfig);
-		}
+		config = new YamlConfiguration();
 	}
 
 	public void runResults(final RequirementsHolder holder, final Player player) {
@@ -216,14 +157,6 @@ public class PlayerDataHandler {
 	}
 
 	public void saveConfig() {
-		if (config == null || configFile == null) {
-			return;
-		}
-		try {
-			getConfig().save(configFile);
-		} catch (final IOException ex) {
-			plugin.getLogger().log(Level.SEVERE, "Could not save config to " + configFile, ex);
-		}
 	}
 
 	public void setCompletedRanks(final UUID uuid, final List<String> completedRanks) {
