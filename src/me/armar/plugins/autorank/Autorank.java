@@ -59,8 +59,6 @@ import me.armar.plugins.autorank.rankbuilder.builders.RequirementBuilder;
 import me.armar.plugins.autorank.rankbuilder.builders.ResultBuilder;
 import me.armar.plugins.autorank.statsmanager.StatsPlugin;
 import me.armar.plugins.autorank.statsmanager.handlers.DummyHandler;
-import me.armar.plugins.autorank.updater.UpdateHandler;
-import me.armar.plugins.autorank.updater.Updater;
 import me.armar.plugins.autorank.util.uuid.storage.UUIDStorage;
 import me.armar.plugins.autorank.validations.ValidateHandler;
 import me.armar.plugins.autorank.warningmanager.WarningManager;
@@ -99,8 +97,6 @@ public class Autorank extends JavaPlugin {
 
 	private BackupManager backupManager;
 
-	private UpdateHandler updateHandler;
-
 	private ValidateHandler validateHandler;
 
 	private WarningManager warningManager;
@@ -112,16 +108,7 @@ public class Autorank extends JavaPlugin {
 	 * @return Whether an update is available
 	 */
 	public boolean checkForUpdate() {
-
-		// We are not allowed to check for new versions.
-		if (!updateHandler.doCheckForNewVersion())
-			return false;
-
-		final Updater updater = new Updater(this, 34447, this.getFile(), Updater.UpdateType.NO_DOWNLOAD, false);
-		updateHandler.setUpdater(updater);
-
-		return (updater.getResult().equals(Updater.UpdateResult.UPDATE_AVAILABLE));
-
+		return false;
 	}
 
 	/**
@@ -182,8 +169,6 @@ public class Autorank extends JavaPlugin {
 
 		setMySQLWrapper(null);
 
-		setUpdateHandler(null);
-
 		setConfigHandler(null);
 
 		// Save playerdata.yml
@@ -242,9 +227,6 @@ public class Autorank extends JavaPlugin {
 
 		// Create files
 		playerDataHandler.createNewFile();
-
-		// Create update handler
-		setUpdateHandler(new UpdateHandler(this));
 
 		// Register listeners
 		getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
@@ -476,10 +458,6 @@ public class Autorank extends JavaPlugin {
 		return simpleConfig;
 	}
 
-	public UpdateHandler getUpdateHandler() {
-		return updateHandler;
-	}
-
 	public ValidateHandler getValidateHandler() {
 		return validateHandler;
 	}
@@ -581,10 +559,6 @@ public class Autorank extends JavaPlugin {
 
 	private void setSimpleConfig(final SimpleYamlConfiguration simpleConfig) {
 		this.simpleConfig = simpleConfig;
-	}
-
-	public void setUpdateHandler(final UpdateHandler updateHandler) {
-		this.updateHandler = updateHandler;
 	}
 
 	public void setValidateHandler(final ValidateHandler validateHandler) {

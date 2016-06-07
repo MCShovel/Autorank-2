@@ -51,27 +51,6 @@ public class PlayerJoinListener implements Listener {
 		// Perform check for player on login
 		plugin.getPlayerChecker().checkPlayer(player);
 
-		// Player isn't allowed to see messages.
-		if (player.hasPermission("autorank.noticeonupdate")) {
-			// No update was available
-			if (plugin.getUpdateHandler().isUpdateAvailable()) {
-				// Schedule it later so it will appear at the bottom
-				plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
-
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						player.sendMessage(ChatColor.GREEN + plugin.getUpdateHandler().getUpdater().getLatestName()
-								+ ChatColor.GOLD + " is now available for download!");
-						player.sendMessage(ChatColor.GREEN + "Available at: " + ChatColor.GOLD
-								+ plugin.getUpdateHandler().getUpdater().getLatestFileLink());
-						//player.sendMessage(ChatColor.GOLD + "Type " + ChatColor.GREEN + "'/ar update'" + ChatColor.GOLD + " to update Autorank.");
-					}
-
-				}, 10L);
-			}
-		}
-
 		// If player has notice on warning permission
 		if (player.hasPermission("autorank.warning.notice")) {
 
