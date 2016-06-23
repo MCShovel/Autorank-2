@@ -23,7 +23,6 @@ import me.armar.plugins.autorank.playerchecker.requirement.BlocksBrokenRequireme
 import me.armar.plugins.autorank.playerchecker.requirement.BlocksMovedRequirement;
 import me.armar.plugins.autorank.playerchecker.requirement.BlocksPlacedRequirement;
 import me.armar.plugins.autorank.playerchecker.requirement.DamageTakenRequirement;
-import me.armar.plugins.autorank.playerchecker.requirement.EssentialsGeoIPRequirement;
 import me.armar.plugins.autorank.playerchecker.requirement.ExpRequirement;
 import me.armar.plugins.autorank.playerchecker.requirement.FishCaughtRequirement;
 import me.armar.plugins.autorank.playerchecker.requirement.FoodEatenRequirement;
@@ -292,7 +291,6 @@ public class Autorank extends JavaPlugin {
 		req.registerRequirement("items crafted", ItemsCraftedRequirement.class);
 		req.registerRequirement("time", TimeRequirement.class);
 		req.registerRequirement("times sheared", TimesShearedRequirement.class);
-		req.registerRequirement("essentials geoip location", EssentialsGeoIPRequirement.class);
 		req.registerRequirement("in biome", InBiomeRequirement.class);
 		req.registerRequirement("food eaten", FoodEatenRequirement.class);
 		req.registerRequirement("javascript", JavaScriptRequirement.class);

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import org.bukkit.entity.Player;
 
 import me.armar.plugins.autorank.Autorank;
-import me.armar.plugins.autorank.hooks.essentialsapi.EssentialsHandler;
 import me.armar.plugins.autorank.hooks.statsapi.StatsAPIHandler;
 import me.armar.plugins.autorank.hooks.vaultapi.VaultHandler;
 import me.armar.plugins.autorank.hooks.statsapi.customstats.CustomStatsManager;
@@ -52,7 +51,6 @@ public class DependencyManager {
 		plugin = instance;
 
 		// Register handlers
-		handlers.put(dependency.ESSENTIALS, new EssentialsHandler(instance));
 		handlers.put(dependency.VAULT, new VaultHandler(instance));
 		handlers.put(dependency.STATS, new StatsAPIHandler(instance));
 
@@ -88,14 +86,6 @@ public class DependencyManager {
 	 * @return true if the player is supspected of being AFK, false otherwise.
 	 */
 	public boolean isAFK(final Player player) {
-		if (!plugin.getConfigHandler().useAFKIntegration()) {
-			return false;
-		}
-
-		if (handlers.get(dependency.ESSENTIALS).isAvailable()) {
-			plugin.debugMessage("Using Essentials for AFK");
-			return ((EssentialsHandler) handlers.get(dependency.ESSENTIALS)).isAFK(player);
-		}
 		// No suitable plugin found
 		return false;
 	}

@@ -43,13 +43,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>net.ess3</groupId>
-			<artifactId>Essentials</artifactId>
-			<version>Pre2.14.1.3</version>
-			<scope>system</scope>
-			<systemPath>/opt/msm/plugins/EssentialsX/EssentialsX.jar</systemPath>
-		</dependency>
-		<dependency>
 			<groupId>nl.lolmewn.stats</groupId>
 			<artifactId>Stats</artifactId>
 			<version>3.0.2</version>
