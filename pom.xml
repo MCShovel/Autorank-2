@@ -47,7 +47,7 @@
 			<artifactId>Stats</artifactId>
 			<version>3.0.2</version>
 			<scope>system</scope>
-			<systemPath>/opt/msm/plugins/Stats/Stats.jar</systemPath>
+			<systemPath>${basedir}/../../plugins/Stats/Stats.jar</systemPath>
 		</dependency>
 
 		<dependency>
@@ -55,7 +55,7 @@
 			<artifactId>Vault</artifactId>
 			<version>1.5.6</version>
 			<scope>system</scope>
-			<systemPath>/opt/msm/plugins/Vault/Vault.jar</systemPath>
+			<systemPath>${basedir}/../../plugins/Vault/Vault.jar</systemPath>
 		</dependency>
 
 		<dependency>
@@ -63,28 +63,28 @@
 			<artifactId>worldedit</artifactId>
 			<version>6.0.0-SNAPSHOT</version>
 			<scope>system</scope>
-			<systemPath>/opt/msm/plugins/worldedit-bukkit/worldedit-bukkit.jar</systemPath>
+			<systemPath>${basedir}/../../plugins/worldedit-bukkit/worldedit-bukkit.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.sk89q</groupId>
 			<artifactId>worldguard</artifactId>
 			<version>6.1.1-SNAPSHOT</version>
 			<scope>system</scope>
-			<systemPath>/opt/msm/plugins/worldguard-bukkit/worldguard-bukkit.jar</systemPath>
+			<systemPath>${basedir}/../../plugins/worldguard-bukkit/worldguard-bukkit.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
 			<version>1.9-SNAPSHOT</version>
 			<scope>system</scope>
-			<systemPath>/opt/msm/src/spigot/spigot.jar</systemPath>
+			<systemPath>${basedir}/../spigot/spigot.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
 			<version>1.9-SNAPSHOT</version>
 			<scope>system</scope>
-			<systemPath>/opt/msm/src/spigot/craftbukkit.jar</systemPath>
+			<systemPath>${basedir}/../spigot/craftbukkit.jar</systemPath>
 		</dependency>
 
 	</dependencies>
